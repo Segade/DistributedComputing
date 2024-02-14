@@ -9,7 +9,7 @@ import java.io.*;
 
 public class EchoClientHelper2 {
 
-   static final String endMessage = ".";
+   static final String endMessage = "logout/";
    private MyStreamSocket mySocket;
    private InetAddress serverHost;
    private int serverPort;
