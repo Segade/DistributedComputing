@@ -21,7 +21,7 @@ System.out.println("Enter your user name: ");
 
           System.out.println("Enter your password: ");
          String password = br.readLine();
-message = "login/username:" + username + "password:" + password ;
+message = "login/username:" + username + "&password:" + password ;
  
 echo = helper.getEcho(message);
 String header = getHeader(echo);
@@ -34,7 +34,7 @@ String option =displayMenu();
 switch (option){
 case "message/" :
 System.out.println("Enter your message: ");
-message = "message/" + br.readLine();
+message = option + br.readLine();
 echo = helper.getEcho(message); 
 System.out.println(getMessage(echo));
 break;
@@ -43,6 +43,12 @@ case "logout/" :
 System.out.println("You are logged out");
 helper.done();
 done = true;
+break;
+
+case "retrieve/":
+message = option + "Retrieve all the messages";
+echo = helper.getEcho(message); 
+System.out.println(getMessage(echo));
 } // end switch
 
 } // end while 
@@ -75,19 +81,19 @@ private static String displayMenu() throws IOException{
       BufferedReader br = new BufferedReader(is);
 
 
-System.out.println("Press 1 to send a message." +
-"\nPress 2 to retrieve all the messages.\nPress 3 to log out.");
+System.out.println("Press enter to send a message." +
+"\nPress 1 to retrieve all the messages.\nPress 2 to log out.");
  
 String option = br.readLine();
 
 switch (option){
-case "1" : option = "message/";
+case "" : option = "message/";
 break;
 
-case "2" : option = "retrieve/";
+case "1" : option = "retrieve/";
 break;
 
-case "3" : option = "logout/";
+case "2" : option = "logout/";
 } // end switch
  
 return option;

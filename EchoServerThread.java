@@ -14,7 +14,8 @@ ArrayList<String> allMessages = new ArrayList<String>();
 
    EchoServerThread(MyStreamSocket myDataSocket) {
       this.myDataSocket = myDataSocket;
-users[0] ="username:ivanpassword:1234";
+users[0] ="username:ivan&password:aaa";
+users[1] = "username:peter&password:1234";
  
    } // end constructor 
  
@@ -22,7 +23,7 @@ users[0] ="username:ivanpassword:1234";
       boolean done = false;
       String message;
 String header;
-String answer = "-----";
+String username = "-----";
 
       try {
 
@@ -38,7 +39,8 @@ System.out.println("fail/Wrong username or password");
                 myDataSocket.close( );
  done = true;
 } else {
-System.out.println("correct username");
+username = getUsername(message);
+System.out.println("The user : " + username + " is logged in");
                  myDataSocket.sendMessage("loggedin/You are logged in");
 }
 break;
@@ -46,21 +48,22 @@ break;
 case "message/" :
 String aMessage = message.substring(message.indexOf("/")+1);
 allMessages.add(aMessage);
-String messages = retrieveMessages();
+System.out.println("Message received from " + username + "\n" + aMessage);
                  myDataSocket.sendMessage("received/Message sent" );
 break;
 
 case "logout/":
-System.out.println("Session closed");
+System.out.println("The user " + username + " is logged out");
 myDataSocket.close();
 done = true;
 break;
+
+case "retrieve/":
+String messages = retrieveMessages();
+System.out.println("the lis of the messages is: \n" + messages);
+                 myDataSocket.sendMessage("messages/The list of your messages is: " + messages);
+
 } // end switch  
-
-
-
-
-
  
           } //end while !done
 
@@ -89,13 +92,21 @@ pass = true;
  return pass;
 } // end find user 
 
+private String getUsername(String credentials){
+return credentials.substring(credentials.indexOf(":") + 1, credentials.indexOf("&"));
+} // end get username 
+
+
 private String retrieveMessages(){
 String result = "";
 
-for (String aMessage : allMessages)
+for (String aMessage : allMessages){
 result += aMessage +"\n";
 
-System.out.println(result);
+}
+if (result.equals(""))
+result = "Empty list";
+
 return result;
 } // end retrieve messages
 
