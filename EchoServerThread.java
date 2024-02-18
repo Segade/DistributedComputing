@@ -59,7 +59,7 @@ done = true;
 break;
 
 case "retrieve/":
-String messages = retrieveMessages();
+String messages = sendAllMessages();
 System.out.println("The list of the messages of" + username + " is: \n" + messages);
                  myDataSocket.sendMessage( messages);
 
@@ -97,7 +97,7 @@ return credentials.substring(credentials.indexOf(":") + 1, credentials.indexOf("
 } // end get username 
 
 
-private String retrieveMessages(){
+private String sendAllMessages(){
 String result = "";
 String header = "amessage/";
 

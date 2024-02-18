@@ -53,7 +53,7 @@ return message.substring(message.indexOf("/") + 1);
 } // end get message 
 
 
-   public String retrieveMessages() throws SocketException, IOException{
+   public String retrieveAllMessages() throws SocketException, IOException{
 String result = "";
 String header = "-";
 String message = "";
