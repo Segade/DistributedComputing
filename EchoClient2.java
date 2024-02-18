@@ -46,9 +46,8 @@ done = true;
 break;
 
 case "retrieve/":
-message = option + "Retrieve all the messages";
-echo = helper.getEcho(message); 
-System.out.println(getMessage(echo));
+ echo = helper.retrieveMessages(); 
+System.out.println("The list of the messages is:\n" + getMessage(echo));
 } // end switch
 
 } // end while 

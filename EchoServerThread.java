@@ -60,8 +60,8 @@ break;
 
 case "retrieve/":
 String messages = retrieveMessages();
-System.out.println("the lis of the messages is: \n" + messages);
-                 myDataSocket.sendMessage("messages/The list of your messages is: " + messages);
+System.out.println("The list of the messages of" + username + " is: \n" + messages);
+                 myDataSocket.sendMessage( messages);
 
 } // end switch  
  
@@ -99,14 +99,21 @@ return credentials.substring(credentials.indexOf(":") + 1, credentials.indexOf("
 
 private String retrieveMessages(){
 String result = "";
+String header = "amessage/";
 
-for (String aMessage : allMessages){
-result += aMessage +"\n";
+if (allMessages.size() == 0)
+result = "lastmessage/Empty list";
+else 
+{
+for (int x = 0 ; x< allMessages.size() ;x++){
 
-}
-if (result.equals(""))
-result = "Empty list";
+if (x == allMessages.size() - 1)
+header = "lastmessage/" ;
 
+result += header + allMessages.get(x) +"\n";
+
+} // end for 
+ } // end else 
 return result;
 } // end retrieve messages
 

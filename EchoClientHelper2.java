@@ -40,4 +40,38 @@ public class EchoClientHelper2 {
       mySocket.sendMessage(endMessage);
       mySocket.close( );
    } // end done 
+
+
+private static String getHeader(String message){
+int indexOfSlash = message.indexOf('/') + 1;
+
+return message.substring(0, indexOfSlash);
+} // end get header 
+
+private static String getMessage(String message){
+return message.substring(message.indexOf("/") + 1);
+} // end get message 
+
+
+   public String retrieveMessages() throws SocketException, IOException{
+String result = "";
+String header = "-";
+String message = "";
+
+      mySocket.sendMessage("retrieve/retrieve all the messages");
+
+while (!header.equals("lastmessage/")) {
+message = mySocket.receiveMessage();
+header = getHeader(message);
+
+result += getMessage(message) + "\n";
+} // end while 
+
+
+return result;
+} // end retrieve all messages 
+
+
+
+
 } //end class
