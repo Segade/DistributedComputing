@@ -42,35 +42,23 @@ public class EchoClientHelper2 {
    } // end done 
 
 
-private static String getHeader(String message){
-int indexOfSlash = message.indexOf('/') + 1;
-
-return message.substring(0, indexOfSlash);
-} // end get header 
-
-private static String getMessage(String message){
-return message.substring(message.indexOf("/") + 1);
-} // end get message 
-
-
    public String retrieveAllMessages() throws SocketException, IOException{
 String result = "";
 String header = "-";
 String message = "";
 
-      mySocket.sendMessage("retrieve/retrieve all the messages");
+      mySocket.sendMessage("retrieveall/retrieve all the messages");
 
 while (!header.equals("lastmessage/")) {
 message = mySocket.receiveMessage();
-header = getHeader(message);
+header = Validator.getHeader(message);
 
-result += getMessage(message) + "\n";
+result += Validator.getMessage(message) + "\n";
 } // end while 
 
 
 return result;
 } // end retrieve all messages 
-
 
 
 

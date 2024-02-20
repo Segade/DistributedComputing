@@ -24,8 +24,8 @@ System.out.println("Enter your user name: ");
 message = "login/username:" + username + "&password:" + password ;
  
 echo = helper.getEcho(message);
-String header = getHeader(echo);
-System.out.println(getMessage(echo)) ;
+String header = Validator.getHeader(echo);
+System.out.println(Validator.getMessage(echo)) ;
 
 if (header.equals("loggedin/")){
 while(!done){
@@ -33,10 +33,18 @@ String option =displayMenu();
 
 switch (option){
 case "message/" :
+message = "";
+while(message.equals("")){
 System.out.println("Enter your message: ");
-message = option + br.readLine();
-echo = helper.getEcho(message); 
-System.out.println(getMessage(echo));
+message = br.readLine();
+message = message.trim();
+
+if (message.equals(""))
+System.out.println("Empty messages are not allowed");
+} // end while
+
+echo = helper.getEcho("message/" + message); 
+System.out.println(Validator.getMessage(echo));
 break;
 
 case "logout/" :
@@ -45,9 +53,15 @@ helper.done();
 done = true;
 break;
 
-case "retrieve/":
+case "retrieveone/" :
+int position = askPosition();
+echo = helper.getEcho(option + position);
+System.out.println("The message " + (position+1) + " is: " + Validator.getMessage(echo) );
+break;
+
+case "retrieveall/":
  echo = helper.retrieveAllMessages(); 
-System.out.println("The list of the messages is:\n" + getMessage(echo));
+System.out.println("The list of the messages is: " + echo );
 } // end switch
 
 } // end while 
@@ -57,11 +71,7 @@ else {
 System.out.println("Wrong user name or password");
 helper.done();
 } // end else logged in
-
   
-
-
-
       } // end try  
       catch (Exception ex) {
          ex.printStackTrace( );
@@ -69,19 +79,13 @@ helper.done();
    } //end main
 
 
-private static String getHeader(String message){
-int indexOfSlash = message.indexOf('/') + 1;
-
-return message.substring(0, indexOfSlash);
-} // end get header 
-
 private static String displayMenu() throws IOException{
       InputStreamReader is = new InputStreamReader(System.in);
       BufferedReader br = new BufferedReader(is);
 
-
 System.out.println("Press enter to send a message." +
-"\nPress 1 to retrieve all the messages.\nPress 2 to log out.");
+"\nPress 1 to retrieve all the messages.\nPress 2 to retrieve one message." +
+"\nPress 3 to log out.\n");
  
 String option = br.readLine();
 
@@ -89,18 +93,35 @@ switch (option){
 case "" : option = "message/";
 break;
 
-case "1" : option = "retrieve/";
+case "1" : option = "retrieveall/";
 break;
 
-case "2" : option = "logout/";
+case "2": option = "retrieveone/";
+
+break;
+case "3" : option = "logout/";
+break;
+
+default:
+System.out.println("Wrong option.\nPlease choose a valid option");
 } // end switch
  
 return option;
 } // end display menu
 
 
-private static String getMessage(String message){
-return message.substring(message.indexOf("/") + 1);
-} // end get message 
+private static int askPosition() throws IOException{
+      InputStreamReader is = new InputStreamReader(System.in);
+      BufferedReader br = new BufferedReader(is);
+String position = "a";
 
+while (!Validator.isInteger(position)){
+System.out.println("Enter the number of the message you want to see (Numbers<= 0 are not allowed): ");
+position = br.readLine();
+} // end while
+
+return Integer.parseInt(position) - 1;
+} // end ask position 
+
+   
 } // end class

@@ -29,7 +29,7 @@ String username = "-----";
 
          while (!done) {
 message =myDataSocket.receiveMessage( );
-header = getHeader(message);
+header = Validator.getHeader(message);
 
 switch(header){
 case "login/":
@@ -39,17 +39,17 @@ System.out.println("fail/Wrong username or password");
                 myDataSocket.close( );
  done = true;
 } else {
-username = getUsername(message);
+username = Validator.getUsername(message);
 System.out.println("The user : " + username + " is logged in");
                  myDataSocket.sendMessage("loggedin/You are logged in");
 }
 break;
 
 case "message/" :
-String aMessage = message.substring(message.indexOf("/")+1);
-allMessages.add(aMessage);
-System.out.println("Message received from " + username + "\n" + aMessage);
-                 myDataSocket.sendMessage("received/Message sent" );
+message = Validator.getMessage(message);
+allMessages.add(message);
+System.out.println("Message received from " + username + "\n" + message);
+                 myDataSocket.sendMessage("received/Message " + allMessages.size() + " sent" );
 break;
 
 case "logout/":
@@ -58,10 +58,23 @@ myDataSocket.close();
 done = true;
 break;
 
-case "retrieve/":
+case "retrieveall/":
 String messages = sendAllMessages();
-System.out.println("The list of the messages of" + username + " is: \n" + messages);
+System.out.println("The list of the messages of" + username + " is: " + messages);
                  myDataSocket.sendMessage( messages);
+break;
+
+
+case "retrieveone/" :
+int position = Integer.parseInt(Validator.getMessage(message));
+
+if (position >= allMessages.size() )
+message = "Not such message found";
+else 
+message = allMessages.get(position);
+
+                 myDataSocket.sendMessage("onemessage/" + message);
+System.out.println("The user " + username + " requested the message:\n" + position + ". " + message );
 
 } // end switch  
  
@@ -73,11 +86,7 @@ System.out.println("The list of the messages of" + username + " is: \n" + messag
         } // end catch
    } //end run
 
-private String getHeader(String message){
-int indexOfSlash = message.indexOf('/') + 1;
 
-return message.substring(0, indexOfSlash);
-} // end get header 
 
 
 private boolean findUser(String message){
@@ -92,30 +101,28 @@ pass = true;
  return pass;
 } // end find user 
 
-private String getUsername(String credentials){
-return credentials.substring(credentials.indexOf(":") + 1, credentials.indexOf("&"));
-} // end get username 
+
 
 
 private String sendAllMessages(){
 String result = "";
-String header = "amessage/";
+String header = "\namessage/";
 
 if (allMessages.size() == 0)
-result = "lastmessage/Empty list";
+result = "\nlastmessage/Empty list";
 else 
 {
 for (int x = 0 ; x< allMessages.size() ;x++){
 
 if (x == allMessages.size() - 1)
-header = "lastmessage/" ;
+header = "\nlastmessage/" ;
 
-result += header + allMessages.get(x) +"\n";
+result += header + (x+1) + ". " + allMessages.get(x);
 
 } // end for 
  } // end else 
 return result;
-} // end retrieve messages
+} // end send all messages
 
 
 } //end class 
