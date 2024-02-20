@@ -1,4 +1,4 @@
-public class Validator{
+public class Functionality{
 
 public static String getHeader(String message){
 int indexOfSlash = message.indexOf('/') + 1;

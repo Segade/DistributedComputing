@@ -51,9 +51,9 @@ String message = "";
 
 while (!header.equals("lastmessage/")) {
 message = mySocket.receiveMessage();
-header = Validator.getHeader(message);
+header = Functionality.getHeader(message);
 
-result += Validator.getMessage(message) + "\n";
+result += Functionality.getMessage(message) + "\n";
 } // end while 
 
 

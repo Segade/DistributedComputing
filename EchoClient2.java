@@ -24,8 +24,8 @@ System.out.println("Enter your user name: ");
 message = "login/username:" + username + "&password:" + password ;
  
 echo = helper.getEcho(message);
-String header = Validator.getHeader(echo);
-System.out.println(Validator.getMessage(echo)) ;
+String header = Functionality.getHeader(echo);
+System.out.println(Functionality.getMessage(echo)) ;
 
 if (header.equals("loggedin/")){
 while(!done){
@@ -44,7 +44,7 @@ System.out.println("Empty messages are not allowed");
 } // end while
 
 echo = helper.getEcho("message/" + message); 
-System.out.println(Validator.getMessage(echo));
+System.out.println(Functionality.getMessage(echo));
 break;
 
 case "logout/" :
@@ -56,7 +56,7 @@ break;
 case "retrieveone/" :
 int position = askPosition();
 echo = helper.getEcho(option + position);
-System.out.println("The message " + (position+1) + " is: " + Validator.getMessage(echo) );
+System.out.println("The message " + (position+1) + " is: " + Functionality.getMessage(echo) );
 break;
 
 case "retrieveall/":
@@ -115,7 +115,7 @@ private static int askPosition() throws IOException{
       BufferedReader br = new BufferedReader(is);
 String position = "a";
 
-while (!Validator.isInteger(position)){
+while (!Functionality.isInteger(position)){
 System.out.println("Enter the number of the message you want to see (Numbers<= 0 are not allowed): ");
 position = br.readLine();
 } // end while

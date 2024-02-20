@@ -29,7 +29,7 @@ String username = "-----";
 
          while (!done) {
 message =myDataSocket.receiveMessage( );
-header = Validator.getHeader(message);
+header = Functionality.getHeader(message);
 
 switch(header){
 case "login/":
@@ -39,14 +39,14 @@ System.out.println("fail/Wrong username or password");
                 myDataSocket.close( );
  done = true;
 } else {
-username = Validator.getUsername(message);
+username = Functionality.getUsername(message);
 System.out.println("The user : " + username + " is logged in");
                  myDataSocket.sendMessage("loggedin/You are logged in");
 }
 break;
 
 case "message/" :
-message = Validator.getMessage(message);
+message = Functionality.getMessage(message);
 allMessages.add(message);
 System.out.println("Message received from " + username + "\n" + message);
                  myDataSocket.sendMessage("received/Message " + allMessages.size() + " sent" );
@@ -66,7 +66,7 @@ break;
 
 
 case "retrieveone/" :
-int position = Integer.parseInt(Validator.getMessage(message));
+int position = Integer.parseInt(Functionality.getMessage(message));
 
 if (position >= allMessages.size() )
 message = "Not such message found";
