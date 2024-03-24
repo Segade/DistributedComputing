@@ -1,5 +1,6 @@
 import java.net.*;
 import java.io.*;
+import javax.net.ssl.*;
 
 /**
  * A wrapper class of Socket which contains 
@@ -7,19 +8,26 @@ import java.io.*;
  * @author M. L. Liu
  */
 public class MyStreamSocket extends Socket {
-   private Socket  socket;
+   private SSLSocket  socket;
    private BufferedReader input;
    private PrintWriter output;
 
    MyStreamSocket(InetAddress acceptorHost,
                   int acceptorPort ) throws SocketException,
                                    IOException{
-      socket = new Socket(acceptorHost, acceptorPort );
+      SSLSocketFactory f = 
+         (SSLSocketFactory) SSLSocketFactory.getDefault();
+
+         this.socket =
+           (SSLSocket) f.createSocket(acceptorHost, acceptorPort);
+
+ 
+         socket.startHandshake();
       setStreams( );
 
    }
 
-   MyStreamSocket(Socket socket)  throws IOException {
+   MyStreamSocket(SSLSocket socket)  throws IOException {
       this.socket = socket;
       setStreams( );
    }

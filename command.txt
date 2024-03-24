@@ -1,0 +1,5 @@
+C:\Users\Ivan\Documents\ITT\Forth_Year\DistrubitedComputing\Week_1_2\Lab2\client>
+java -cp . -Djdk.tls.client.protocols=TLSv1.2 -Djavax.net.ssl.trustStore=public.jks   -Djavax.net.ssl.trustStorePassword=password EchoClient2
+
+C:\Users\Ivan\Documents\ITT\Forth_Year\DistrubitedComputing\Week_1_2\Lab2>
+java -Djdk.tls.server.protocols=TLSv1.2 EchoServer3 

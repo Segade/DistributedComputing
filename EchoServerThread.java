@@ -60,7 +60,7 @@ break;
 
 case "retrieveall/":
 String messages = sendAllMessages();
-System.out.println("The list of the messages of" + username + " is: " + messages);
+System.out.println("The list of the messages of " + username + " is: " + messages);
                  myDataSocket.sendMessage( messages);
 break;
 

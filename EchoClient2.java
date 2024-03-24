@@ -14,7 +14,7 @@ boolean done = false;
       BufferedReader br = new BufferedReader(is);
       try {
          System.out.println("Welcome to the client.\n" );
-          EchoClientHelper2 helper =             new EchoClientHelper2("localhost", "7");
+          EchoClientHelper2 helper =             new EchoClientHelper2("localhost", "1981");
 
 System.out.println("Enter your user name: ");
          String username = br.readLine();
